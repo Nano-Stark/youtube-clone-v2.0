@@ -5,6 +5,7 @@ import MicIcon from "@mui/icons-material/Mic";
 import SearchIcon from "@mui/icons-material/Search";
 import styled from "styled-components";
 import { IconButton } from "@mui/material";
+import LogoImage from "../utils/Youtube-logo.png";
 
 const Container = styled.div`
   z-index: 999;
@@ -25,6 +26,15 @@ const Logo = styled.div`
   align-items: center;
   gap: 2.5em;
   padding-left: 1em;
+`;
+
+const Logotwo = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.1em;
+  padding: 0.1em;
+  font-weight: 900;
+  font-size: 20px;
 `;
 
 const Search = styled.div`
@@ -68,6 +78,15 @@ const Image = styled.img`
   object-fit: cover;
 `;
 
+const ImageLogo = styled.img`
+  height: 36px;
+  width: 36px;
+  /* margin-right: 2em; */
+  /* margin-left: 1.2em; */
+  /* border-radius: 50%; */
+  object-fit: cover;
+`;
+
 const IconWrapper = styled(IconButton)`
   background-color: ${({ theme }) => theme.bg} !important;
   color: ${({ theme }) => theme.text} !important;
@@ -86,7 +105,10 @@ const Navbar = ({ activeMenu, setActiveMenu }) => {
         <IconWrapper onClick={() => setActiveMenu(!activeMenu)} sx={{}}>
           <MenuIcon />
         </IconWrapper>
-        Logo
+        <Logotwo>
+          <ImageLogo src={LogoImage} />
+          StarkTube
+        </Logotwo>
       </Logo>
       <Search>
         <InputWrapper>

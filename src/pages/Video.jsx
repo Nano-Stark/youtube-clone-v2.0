@@ -142,6 +142,7 @@ const VideoJoinButton = styled.button`
   border-radius: 5px;
   font-weight: 600;
   background-color: transparent;
+  font-size: 14px; ;
 `;
 
 const Video = () => {
