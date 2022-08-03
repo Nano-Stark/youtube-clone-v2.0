@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import Video from "./pages/Video";
 import SignIn from "./pages/SignIn";
 import { Routes, Route } from "react-router-dom";
+import { darkTheme, lightTheme } from "./utils/Theme";
 
 const Container = styled.div``;
 
@@ -13,6 +14,7 @@ const Wrapper = styled.div`
   display: flex;
   -ms-overflow-style: none;
   scrollbar-width: none;
+  background-color: ${({ theme }) => theme.bg};
 
   &::-webkit-scrollbar {
     display: none;
@@ -21,23 +23,32 @@ const Wrapper = styled.div`
 
 function App() {
   const [activeMenu, setActiveMenu] = useState(true);
+  const [darkMode, setDarkMode] = useState(false);
   // pathname for hiding menu when its on the path /video
   const pathname = window.location.pathname;
   console.log(window.location.pathname);
   return (
-    // <ThemeProvider>
-    <Container>
-      <Navbar activeMenu={activeMenu} setActiveMenu={setActiveMenu} />
-      <Wrapper>
-        <Menu activeMenu={activeMenu} pathname={pathname} />
-        <Routes>
-          <Route path="/" index element={<Home activeMenu={activeMenu} />} />
-          <Route path="/video" element={<Video activeMenu={activeMenu} />} />
-          <Route path="/signin" element={<SignIn activeMenu={activeMenu} />} />
-        </Routes>
-      </Wrapper>
-    </Container>
-    // </ThemeProvider>
+    <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
+      <Container>
+        <Navbar activeMenu={activeMenu} setActiveMenu={setActiveMenu} />
+        <Wrapper>
+          <Menu
+            activeMenu={activeMenu}
+            pathname={pathname}
+            darkMode={darkMode}
+            setDarkMode={setDarkMode}
+          />
+          <Routes>
+            <Route path="/" index element={<Home activeMenu={activeMenu} />} />
+            <Route path="/video" element={<Video activeMenu={activeMenu} />} />
+            <Route
+              path="/signin"
+              element={<SignIn activeMenu={activeMenu} />}
+            />
+          </Routes>
+        </Wrapper>
+      </Container>
+    </ThemeProvider>
   );
 }
 

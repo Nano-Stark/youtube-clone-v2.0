@@ -7,6 +7,7 @@ import styled from "styled-components";
 import { IconButton } from "@mui/material";
 
 const Container = styled.div`
+  z-index: 999;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -15,8 +16,8 @@ const Container = styled.div`
   position: sticky;
   top: 0px;
   height: 56px;
-  background-color: #f0f0f0;
-  z-index: 50;
+  background-color: ${({ theme }) => theme.bgLighter};
+  color: ${({ theme }) => theme.text};
 `;
 
 const Logo = styled.div`
@@ -44,6 +45,7 @@ const InputWrapper = styled.div`
   border: 1px solid gray;
   width: 45vw;
   height: 2.5em;
+  z-index: 999;
 `;
 
 const Input = styled.input`
@@ -53,6 +55,8 @@ const Input = styled.input`
   border: none;
   border-right: 1px solid gray;
   padding: 7px;
+  background-color: transparent;
+  color: ${({ theme }) => theme.text};
 `;
 
 const Image = styled.img`
@@ -60,6 +64,15 @@ const Image = styled.img`
   width: 36px;
   margin-right: 2em;
   margin-left: 1.2em;
+  border-radius: 50%;
+  object-fit: cover;
+`;
+
+const IconWrapper = styled(IconButton)`
+  background-color: ${({ theme }) => theme.bg} !important;
+  color: ${({ theme }) => theme.text} !important;
+  /* display: grid;
+  place-items: center; */
 `;
 
 // const Hr = styled.hr`
@@ -68,42 +81,48 @@ const Image = styled.img`
 
 const Navbar = ({ activeMenu, setActiveMenu }) => {
   return (
-    <>
-      <Container>
-        <Logo>
-          <IconButton onClick={() => setActiveMenu(!activeMenu)}>
-            <MenuIcon />
-          </IconButton>
-          Logo
-        </Logo>
-        <Search>
-          <InputWrapper>
-            <Input placeholder="Search" />
+    <Container>
+      <Logo>
+        <IconWrapper onClick={() => setActiveMenu(!activeMenu)} sx={{}}>
+          <MenuIcon />
+        </IconWrapper>
+        Logo
+      </Logo>
+      <Search>
+        <InputWrapper>
+          <Input placeholder="Search" />
+          <IconWrapper sx={{ borderRadius: 0 }}>
             <SearchIcon
-              style={{
-                paddingLeft: "0.5em",
-                paddingRight: "0.5em",
-                backgroundColor: "#F0F0F0",
-                height: "100%",
-              }}
+              style={
+                {
+                  // paddingLeft: "0.5em",
+                  // paddingRight: "0.5em",
+                  // backgroundColor: "#F0F0F0",
+                  // height: "100%",
+                }
+              }
             />
-          </InputWrapper>
+          </IconWrapper>
+        </InputWrapper>
+
+        <IconWrapper>
           <MicIcon
-            style={{
-              borderRadius: "50%",
-              backgroundColor: "#F0F0F0",
-              padding: "0.3em",
-            }}
+            style={
+              {
+                // borderRadius: "50%",
+                // backgroundColor: "#181818",
+                // padding: "0.1em",
+              }
+            }
           />
-        </Search>
-        <Info>
-          <VideoCallOutlinedIcon />
-          <NotificationsNoneIcon fontSize="medium" />
-          <Image />
-        </Info>
-      </Container>
-      {/* <Hr /> */}
-    </>
+        </IconWrapper>
+      </Search>
+      <Info>
+        <VideoCallOutlinedIcon />
+        <NotificationsNoneIcon fontSize="medium" />
+        <Image src="https://www.denofgeek.com/wp-content/uploads/2021/10/spider-man-no-way-home-tom-holland-doctor-strange-sony.jpg?fit=1200%2C680" />
+      </Info>
+    </Container>
   );
 };
 

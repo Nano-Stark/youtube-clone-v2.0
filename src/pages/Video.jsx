@@ -23,13 +23,15 @@ const Container = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
+
+  color: ${({ theme }) => theme.text};
 `;
 
 const CurrentVideo = styled.div`
   /* grid-column-start: 1; */
   /* grid-column-end: 4; */
   flex: 6;
-  background-color: red;
+  /* background-color: red; */
   height: 72vh;
 `;
 
@@ -37,7 +39,7 @@ const Recommendation = styled.div`
   /* grid-column-start: 4; */
   /* grid-column-end: 8; */
   flex: 3;
-  background-color: green;
+  /* background-color: green; */
 `;
 
 const VideoContainer = styled.div`
@@ -62,7 +64,9 @@ const VideoMeta = styled.div`
   border-bottom: 1px solid #919191;
 `;
 
-const VideoMetaOne = styled.div``;
+const VideoMetaOne = styled.div`
+  font-size: 14px;
+`;
 
 const VideoMetaTwo = styled.div`
   display: flex;
@@ -73,7 +77,7 @@ const VideoMetaTwo = styled.div`
 const Meta = styled.div`
   display: flex;
   gap: 3px;
-  font-size: 16px;
+  font-size: 14px;
   align-items: center;
 `;
 
@@ -99,6 +103,8 @@ const Hr = styled.hr`
 const VideoImage = styled.img`
   height: 50px;
   width: 50px;
+  border-radius: 50%;
+  object-fit: cover;
 `;
 
 const VideoText = styled.div`
@@ -107,11 +113,13 @@ const VideoText = styled.div`
 
 const POne = styled.p`
   margin: 0px;
+  font-weight: 800;
 `;
 
 const PTwo = styled.p`
   margin: 0px;
   font-size: 12px;
+  font-weight: 500;
 `;
 
 const VideoButton = styled.div`
@@ -120,9 +128,20 @@ const VideoButton = styled.div`
 `;
 const VideoSubscribeButton = styled.button`
   padding: 10px 20px;
+  border: none;
+  background-color: #cc0000;
+  color: #f9f9f9;
+  border-radius: 5px;
+  font-weight: 600;
 `;
+
 const VideoJoinButton = styled.button`
   padding: 10px 20px;
+  border: 0.5px solid blue;
+  color: blue;
+  border-radius: 5px;
+  font-weight: 600;
+  background-color: transparent;
 `;
 
 const Video = () => {
@@ -138,7 +157,7 @@ const Video = () => {
         </VideoContainer>
 
         <VideoInfo>
-          <VideoTitle>Javascript Matery Algorithm</VideoTitle>
+          <VideoTitle>Stark's Mastery</VideoTitle>
 
           <VideoMeta>
             <VideoMetaOne>81K views · 3 days ago</VideoMetaOne>
@@ -167,7 +186,7 @@ const Video = () => {
         </VideoInfo>
 
         <VideoDescription>
-          <VideoImage />
+          <VideoImage src="https://www.denofgeek.com/wp-content/uploads/2021/10/spider-man-no-way-home-tom-holland-doctor-strange-sony.jpg?fit=1200%2C680" />
           <VideoText>
             <POne>freecodeCamp</POne>
             <PTwo>6M subscribers</PTwo>

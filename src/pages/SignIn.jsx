@@ -10,29 +10,36 @@ const Container = styled.div`
 `;
 
 const Wrapper = styled.div`
-  border: 1px solid #919191;
+  border: 1px solid ${({ theme }) => theme.textSoft};
   padding: 20px;
 `;
 
 const Title = styled.h2`
   margin: -2px;
   text-align: center;
+  color: ${({ theme }) => theme.textSoft};
 `;
 
 const SubTitle = styled.h4`
   margin: 5px 0px;
   text-align: center;
+  color: ${({ theme }) => theme.textSoft};
 `;
 
 const Input = styled.input`
-  padding: 5px;
+  padding: 10px;
   margin: 5px;
   outline: none;
+  background-color: transparent;
+  font-size: 16px;
 `;
 
 const Button = styled.button`
   margin-top: 5px;
   padding: 5px 7px;
+  background-color: ${({ theme }) => theme.textSoft};
+  border: none;
+  color: ${({ theme }) => theme.text};
 `;
 
 const Form = styled.form`
@@ -48,7 +55,7 @@ const InfoContainer = styled.div`
 
 const Info = styled.h6`
   margin: 0px;
-  color: #919191;
+  color: ${({ theme }) => theme.textSoft};
 `;
 
 const SignIn = () => {

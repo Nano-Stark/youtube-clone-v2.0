@@ -4,16 +4,19 @@ import MoreVertOutlinedIcon from "@mui/icons-material/MoreVertOutlined";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 const Container = styled.div`
-  background-color: ${(props) =>
-    props.recommendation === true ? "blue" : "gray"};
+  /* background-color: ${(props) =>
+    props.recommendation === true ? "blue" : "gray"}; */
   margin: 3px;
+  z-index: 1;
   display: ${(props) => (props.recommendation === true ? "flex" : "")};
+  color: ${({ theme }) => theme.text};
 
   &:hover {
     transform: ${(props) =>
-      props.recommendation === true ? "scale(1)" : "scale(1.2)"};
+      props.recommendation === true ? "scale(1)" : "scale(1.1)"};
     cursor: pointer;
   }
+  transition: 0.5s ease-out;
 `;
 
 const Video = styled.img`
@@ -86,7 +89,10 @@ const VideoCard = ({ recommendation }) => {
         src="https://www.denofgeek.com/wp-content/uploads/2021/10/spider-man-no-way-home-tom-holland-doctor-strange-sony.jpg?fit=1200%2C680"
       />
       <VideoInfoContainer>
-        <VideoImage recommendation={recommendation} />
+        <VideoImage
+          recommendation={recommendation}
+          src="https://www.denofgeek.com/wp-content/uploads/2021/10/spider-man-no-way-home-tom-holland-doctor-strange-sony.jpg?fit=1200%2C680"
+        />
         <VideoInfo>
           <InfoContainer>
             <VideoTitle>title</VideoTitle>

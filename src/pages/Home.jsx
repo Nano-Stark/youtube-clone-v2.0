@@ -10,16 +10,18 @@ const Wrapper = styled.div`
   padding: 20px;
   padding-right: 30px;
   display: grid;
-  grid-template-columns: auto auto auto auto;
+  grid-template-columns: repeat(4, 1fr);
   column-gap: 10px;
   row-gap: 25px;
+  /* z-index: -999px; */
 `;
 
 const QuickItem = styled.div`
-  border-top: 1px solid #919191;
-  border-bottom: 1px solid #919191;
+  border-top: 1px solid ${({ theme }) => theme.textSoft};
+  border-bottom: 1px solid ${({ theme }) => theme.textSoft};
   position: sticky;
-  top: 56px;
+  top: 65px;
+  z-index: 999;
 `;
 
 const BubbleContainer = styled.div`
@@ -29,6 +31,8 @@ const BubbleContainer = styled.div`
   -ms-overflow-style: none;
   scrollbar-width: none;
 
+  background-color: ${({ theme }) => theme.bg};
+
   &::-webkit-scrollbar {
     display: none;
   }
@@ -37,13 +41,12 @@ const BubbleContainer = styled.div`
 const Bubble = styled.span`
   padding: 0.5em;
   padding-top: 0.2em;
-  border: 1px solid #919191;
+  border: 1px solid ${({ theme }) => theme.textSoft};
   border-radius: 15px;
   margin: 0 0.5em;
-  background-color: #f0f0f0;
+  background-color: ${({ theme }) => theme.bgLighter};
+  color: ${({ theme }) => theme.textSoft};
 `;
-
-const Test = styled.div``;
 
 const Home = ({ activeMenu }) => {
   const wrapperRef = useRef(null);

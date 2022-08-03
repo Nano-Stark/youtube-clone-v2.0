@@ -11,7 +11,7 @@ const Container = styled.div`
   /* background-color: gray; */
 
   &:hover {
-    background-color: #f0f0f0;
+    background-color: ${({ theme }) => theme.soft};
   }
 `;
 
@@ -24,7 +24,7 @@ const ContainerTwo = styled.div`
   padding-top: 10px;
 
   &:hover {
-    background-color: #f0f0f0;
+    background-color: ${({ theme }) => theme.soft};
   }
 `;
 
