@@ -6,6 +6,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import styled from "styled-components";
 import { IconButton } from "@mui/material";
 import LogoImage from "../utils/Youtube-logo.png";
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 
 const Container = styled.div`
   z-index: 999;
@@ -94,11 +95,19 @@ const IconWrapper = styled(IconButton)`
   place-items: center; */
 `;
 
-// const Hr = styled.hr`
-//   margin-left: calc(1em + 7px + 2.5em);
-// `;
+const SignInButton = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+  border: 0.5px solid blue;
+  color: blue;
+  padding: 7px;
+  margin-right: 3em;
+`;
 
 const Navbar = ({ activeMenu, setActiveMenu }) => {
+  const signin = false;
   return (
     <Container>
       <Logo>
@@ -139,11 +148,20 @@ const Navbar = ({ activeMenu, setActiveMenu }) => {
           />
         </IconWrapper>
       </Search>
-      <Info>
-        <VideoCallOutlinedIcon />
-        <NotificationsNoneIcon fontSize="medium" />
-        <Image src="https://www.denofgeek.com/wp-content/uploads/2021/10/spider-man-no-way-home-tom-holland-doctor-strange-sony.jpg?fit=1200%2C680" />
-      </Info>
+      {signin ? (
+        <Info>
+          <VideoCallOutlinedIcon />
+          <NotificationsNoneIcon fontSize="medium" />
+          <Image src="https://www.denofgeek.com/wp-content/uploads/2021/10/spider-man-no-way-home-tom-holland-doctor-strange-sony.jpg?fit=1200%2C680" />
+        </Info>
+      ) : (
+        <Info>
+          <SignInButton>
+            <AccountCircleOutlinedIcon />
+            SIGN IN
+          </SignInButton>
+        </Info>
+      )}
     </Container>
   );
 };

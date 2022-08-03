@@ -15,6 +15,7 @@ import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import FeedbackOutlinedIcon from "@mui/icons-material/FeedbackOutlined";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import MenuItem from "./MenuItem";
 import { useState } from "react";
 
@@ -85,6 +86,25 @@ const ContainerTwo = styled.div`
   color: ${({ theme }) => theme.text};
 `;
 
+const SignInButton = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  border: 0.5px solid blue;
+  color: blue;
+  padding: 7px;
+`;
+
+const SignIn = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  padding: 1em;
+  font-size: 14px;
+  align-items: flex-start;
+`;
+
 const Menu = ({ activeMenu, pathname, darkMode, setDarkMode }) => {
   if (!activeMenu && pathname === "/video") return;
   if (!activeMenu)
@@ -124,6 +144,15 @@ const Menu = ({ activeMenu, pathname, darkMode, setDarkMode }) => {
       <MenuItem Icon={HistoryOutlinedIcon} text="History" />
       <MenuItem Icon={WatchLaterOutlinedIcon} text="Watch Later" />
       <MenuItem Icon={ThumbUpAltOutlinedIcon} text="Liked videos" />
+
+      <Hr />
+      <SignIn>
+        Sign In to like and subscribe to videos.
+        <SignInButton>
+          <AccountCircleOutlinedIcon />
+          SIGN IN
+        </SignInButton>
+      </SignIn>
 
       <Hr />
       <Text>Subscriptions</Text>
