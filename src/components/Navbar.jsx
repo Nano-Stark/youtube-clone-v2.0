@@ -7,6 +7,7 @@ import styled from "styled-components";
 import { IconButton } from "@mui/material";
 import LogoImage from "../utils/Youtube-logo.png";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   z-index: 999;
@@ -104,6 +105,7 @@ const SignInButton = styled.div`
   color: blue;
   padding: 7px;
   margin-right: 3em;
+  /* text-decoration-line: none; */
 `;
 
 const Navbar = ({ activeMenu, setActiveMenu }) => {
@@ -156,10 +158,12 @@ const Navbar = ({ activeMenu, setActiveMenu }) => {
         </Info>
       ) : (
         <Info>
-          <SignInButton>
-            <AccountCircleOutlinedIcon />
-            SIGN IN
-          </SignInButton>
+          <Link to="/signin" style={{ textDecorationLine: "none" }}>
+            <SignInButton>
+              <AccountCircleOutlinedIcon />
+              SIGN IN
+            </SignInButton>
+          </Link>
         </Info>
       )}
     </Container>

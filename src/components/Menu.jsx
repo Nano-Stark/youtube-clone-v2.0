@@ -18,6 +18,7 @@ import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import MenuItem from "./MenuItem";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   flex: 1.75;
@@ -94,6 +95,7 @@ const SignInButton = styled.div`
   border: 0.5px solid blue;
   color: blue;
   padding: 7px;
+  text-decoration: none !important;
 `;
 
 const SignIn = styled.div`
@@ -148,10 +150,12 @@ const Menu = ({ activeMenu, pathname, darkMode, setDarkMode }) => {
       <Hr />
       <SignIn>
         Sign In to like and subscribe to videos.
-        <SignInButton>
-          <AccountCircleOutlinedIcon />
-          SIGN IN
-        </SignInButton>
+        <Link to="/signin" style={{ textDecorationLine: "none" }}>
+          <SignInButton>
+            <AccountCircleOutlinedIcon />
+            SIGN IN
+          </SignInButton>
+        </Link>
       </SignIn>
 
       <Hr />
