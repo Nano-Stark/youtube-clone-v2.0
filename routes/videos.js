@@ -23,7 +23,7 @@ router.get("/find/:id", getVideo);
 router.put("/view/:id", addView);
 router.get("/trend", trendVideo);
 router.get("/random", randomVideo);
-router.get("/sub", verifyToken, subscribedVideo);
+router.get("/subscriptions", verifyToken, subscribedVideo);
 router.get("/tags", taggedVideo);
 router.get("/search", searchVideo);
 
