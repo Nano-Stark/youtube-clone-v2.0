@@ -39,8 +39,23 @@ function App() {
             setDarkMode={setDarkMode}
           />
           <Routes>
-            <Route path="/" index element={<Home activeMenu={activeMenu} />} />
-            <Route path="/video" element={<Video activeMenu={activeMenu} />} />
+            <Route
+              path="/"
+              index
+              element={<Home type="random" activeMenu={activeMenu} />}
+            />
+            <Route
+              path="/trend"
+              element={<Home type="trend" activeMenu={activeMenu} />}
+            />
+            <Route
+              path="/subscriptions"
+              element={<Home type="subscriptions" activeMenu={activeMenu} />}
+            />
+            <Route
+              path="/video/:videoId"
+              element={<Video activeMenu={activeMenu} />}
+            />
             <Route
               path="/signin"
               element={<SignIn activeMenu={activeMenu} />}

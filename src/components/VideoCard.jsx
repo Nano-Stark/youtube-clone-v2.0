@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import MoreVertOutlinedIcon from "@mui/icons-material/MoreVertOutlined";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import { format } from "timeago.js";
+import axios from "axios";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   /* background-color: ${(props) =>
@@ -81,25 +84,38 @@ const VideoMetaData = styled.p`
   font-weight: 400;
 `;
 
-const VideoCard = ({ recommendation }) => {
+const VideoCard = ({ recommendation, video }) => {
+  const [channel, setChannel] = useState({});
+  const [error, setError] = useState(false);
+  useEffect(() => {
+    const fetchChannel = async () => {
+      try {
+        const res = await axios.get(`/users/find/${video.userId}`);
+        setChannel(res.data);
+        setError(false);
+      } catch (err) {
+        console.log(err);
+        setError(true);
+      }
+    };
+    fetchChannel();
+  }, [video.userId]);
   return (
+    <Link to={`/video/${video._id}`} style={{ textDecoration: "none", color: "inherit" }}>
     <Container recommendation={recommendation}>
-      <Video
-        recommendation={recommendation}
-        src="https://www.denofgeek.com/wp-content/uploads/2021/10/spider-man-no-way-home-tom-holland-doctor-strange-sony.jpg?fit=1200%2C680"
-      />
+      <Video recommendation={recommendation} src={video.videoUrl} />
       <VideoInfoContainer>
-        <VideoImage
-          recommendation={recommendation}
-          src="https://www.denofgeek.com/wp-content/uploads/2021/10/spider-man-no-way-home-tom-holland-doctor-strange-sony.jpg?fit=1200%2C680"
-        />
+        <VideoImage recommendation={recommendation} src={channel.img} />
         <VideoInfo>
           <InfoContainer>
-            <VideoTitle>title</VideoTitle>
+            <VideoTitle>{video.title}</VideoTitle>
             <VideoName>
-              Netflix <CheckCircleIcon style={{ fontSize: "12px" }} />
+              {channel.name}
+              <CheckCircleIcon style={{ fontSize: "12px" }} />
             </VideoName>
-            <VideoMetaData>81K views · 3 days ago</VideoMetaData>
+            <VideoMetaData>
+              {video.views}K views · {format(video.createdAt)}
+            </VideoMetaData>
           </InfoContainer>
           <InfoContainertwo>
             <MoreVertOutlinedIcon />
@@ -107,6 +123,7 @@ const VideoCard = ({ recommendation }) => {
         </VideoInfo>
       </VideoInfoContainer>
     </Container>
+    </Link>
   );
 };
 

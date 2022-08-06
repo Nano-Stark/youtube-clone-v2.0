@@ -1,4 +1,5 @@
-import { useLayoutEffect, useRef, useState } from "react";
+import axios from "axios";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import VideoCard from "../components/VideoCard";
 
@@ -48,7 +49,7 @@ const Bubble = styled.span`
   color: ${({ theme }) => theme.textSoft};
 `;
 
-const Home = ({ activeMenu }) => {
+const Home = ({ activeMenu, type }) => {
   const wrapperRef = useRef(null);
   // const [wrapperWidth, setWrapperWidth] = useState(0);
 
@@ -58,6 +59,23 @@ const Home = ({ activeMenu }) => {
   // }, [wrapperRef.current.clientWidth]);
 
   // console.log(wrapperWidth);
+
+  const [videos, setVideos] = useState([]);
+  const [error, setError] = useState(false);
+  useEffect(() => {
+    const fetchVideos = async () => {
+      try {
+        const res = await axios.get(`/videos/${type}`);
+        setVideos(res.data);
+        setError(false);
+      } catch (err) {
+        console.log(err);
+        setError(true);
+      }
+    };
+    fetchVideos();
+  }, [type]);
+  // console.log(videos);
 
   return (
     <Container>
@@ -70,129 +88,16 @@ const Home = ({ activeMenu }) => {
           <Bubble>Javascript</Bubble>
           <Bubble>Javascript</Bubble>
           <Bubble>Javascript</Bubble>
-          <Bubble>Javascript</Bubble>
-          <Bubble>Javascript</Bubble>
-          <Bubble>Javascript</Bubble>
-          <Bubble>Javascript</Bubble>
-          <Bubble>Javascript</Bubble>
-          <Bubble>Javascript</Bubble>
-          <Bubble>Javascript</Bubble>
-          <Bubble>Javascript</Bubble>
-          <Bubble>Javascript</Bubble>
-          <Bubble>Javascript</Bubble>
-          <Bubble>Javascript</Bubble>
-          <Bubble>Javascript</Bubble>
-          <Bubble>Javascript</Bubble>
-          <Bubble>Javascript</Bubble>
-          <Bubble>Javascript</Bubble>
-          <Bubble>Javascript</Bubble>
-          <Bubble>Javascript</Bubble>
-          <Bubble>Javascript</Bubble>
-          <Bubble>Javascript</Bubble>
-          <Bubble>Javascript</Bubble>
-          <Bubble>Javascript</Bubble>
-          <Bubble>Javascript</Bubble>
-          <Bubble>Javascript</Bubble>
-          <Bubble>Javascript</Bubble>
-          <Bubble>Javascript</Bubble>
-          <Bubble>Javascript</Bubble>
-          <Bubble>Javascript</Bubble>
-          <Bubble>Javascript</Bubble>
-          <Bubble>Javascript</Bubble>
         </BubbleContainer>
       </QuickItem>
 
       <Wrapper ref={wrapperRef}>
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
+        {!error ? (
+          videos.map((video) => <VideoCard key={video._id} video={video} />)
+        ) : (
+          <h1>401 Unauthorised Error</h1>
+        )}
+        {/* <VideoCard /> */}
       </Wrapper>
     </Container>
   );

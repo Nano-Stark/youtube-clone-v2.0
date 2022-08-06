@@ -1,5 +1,8 @@
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
+import { loginFailure, loginStart, loginSuccess } from "../redux/userSlice";
 
 const Container = styled.div`
   flex: 8;
@@ -42,7 +45,7 @@ const Button = styled.button`
   color: ${({ theme }) => theme.text};
 `;
 
-const Form = styled.form`
+const Form = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -59,22 +62,79 @@ const Info = styled.h6`
 `;
 
 const SignIn = () => {
+  const [username, setUserName] = useState();
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+  const dispatch = useDispatch();
+
+  const handleSignin = async (e) => {
+    e.preventDefault();
+    dispatch(loginStart());
+    try {
+      const res = await axios.post("/auth/signin", {
+        email,
+        password,
+      });
+      dispatch(loginSuccess(res.data));
+      console.log(res.data);
+    } catch (err) {
+      console.log(err);
+      dispatch(loginFailure());
+    }
+  };
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post("/auth/register", {
+        name: username,
+        password,
+        email,
+      });
+      console.log(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <Container>
       <Wrapper>
         <Title>Sign In</Title>
         <SubTitle>to continue to StarkTube</SubTitle>
         <Form>
-          <Input type="text" placeholder="username" />
-          <Input type="password" placeholder="password" />
-          <Button type="submit">Sign In</Button>
+          <Input
+            type="email"
+            placeholder="email"
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <Input
+            type="password"
+            placeholder="password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <Button type="submit" onClick={handleSignin}>
+            Sign In
+          </Button>
         </Form>
         <SubTitle>or</SubTitle>
         <Form>
-          <Input type="text" placeholder="username" />
-          <Input type="email" placeholder="email" />
-          <Input type="password" placeholder="password" />
-          <Button type="submit">Sign up</Button>
+          <Input
+            type="text"
+            placeholder="username"
+            onChange={(e) => setUserName(e.target.value)}
+          />
+          <Input
+            type="email"
+            placeholder="email"
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <Input
+            type="password"
+            placeholder="password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <Button type="submit" onClick={handleSignup}>
+            Sign up
+          </Button>
         </Form>
       </Wrapper>
       <InfoContainer>

@@ -19,6 +19,7 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import MenuItem from "./MenuItem";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
 const Container = styled.div`
   flex: 1.75;
@@ -109,6 +110,7 @@ const SignIn = styled.div`
 
 const Menu = ({ activeMenu, pathname, darkMode, setDarkMode }) => {
   if (!activeMenu && pathname === "/video") return;
+  const { currentUser } = useSelector((state) => state.user);
   if (!activeMenu)
     return (
       <ContainerTwo>
@@ -137,26 +139,39 @@ const Menu = ({ activeMenu, pathname, darkMode, setDarkMode }) => {
 
   return (
     <Container>
-      <MenuItem Icon={HomeIcon} text="Home" />
-      <MenuItem Icon={ExploreOutlinedIcon} text="Explore" />
+      <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+        <MenuItem Icon={HomeIcon} text="Home" />
+      </Link>
+      <Link to="/trend" style={{ textDecoration: "none", color: "inherit" }}>
+        <MenuItem Icon={ExploreOutlinedIcon} text="Explore" />
+      </Link>
       <MenuItem Icon={LocalPlayOutlinedIcon} text="Shorts" />
-      <MenuItem Icon={SubscriptionsOutlinedIcon} text="Subscription" />
+      <Link
+        to="/subscriptions"
+        style={{ textDecoration: "none", color: "inherit" }}
+      >
+        <MenuItem Icon={SubscriptionsOutlinedIcon} text="Subscription" />
+      </Link>
       <Hr />
       <MenuItem Icon={VideoLibraryOutlinedIcon} text="Library" />
       <MenuItem Icon={HistoryOutlinedIcon} text="History" />
       <MenuItem Icon={WatchLaterOutlinedIcon} text="Watch Later" />
       <MenuItem Icon={ThumbUpAltOutlinedIcon} text="Liked videos" />
 
-      <Hr />
-      <SignIn>
-        Sign In to like and subscribe to videos.
-        <Link to="/signin" style={{ textDecorationLine: "none" }}>
-          <SignInButton>
-            <AccountCircleOutlinedIcon />
-            SIGN IN
-          </SignInButton>
-        </Link>
-      </SignIn>
+      {!currentUser && (
+        <>
+          <Hr />
+          <SignIn>
+            Sign In to like and subscribe to videos.
+            <Link to="/signin" style={{ textDecorationLine: "none" }}>
+              <SignInButton>
+                <AccountCircleOutlinedIcon />
+                SIGN IN
+              </SignInButton>
+            </Link>
+          </SignIn>
+        </>
+      )}
 
       <Hr />
       <Text>Subscriptions</Text>

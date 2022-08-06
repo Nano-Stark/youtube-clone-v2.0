@@ -8,6 +8,8 @@ import { IconButton } from "@mui/material";
 import LogoImage from "../utils/Youtube-logo.png";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { useState } from "react";
 
 const Container = styled.div`
   z-index: 999;
@@ -109,7 +111,8 @@ const SignInButton = styled.div`
 `;
 
 const Navbar = ({ activeMenu, setActiveMenu }) => {
-  const signin = false;
+  const { currentUser } = useSelector((state) => state.user);
+  const [open, setOpen] = useState(false);
   return (
     <Container>
       <Logo>
@@ -150,11 +153,11 @@ const Navbar = ({ activeMenu, setActiveMenu }) => {
           />
         </IconWrapper>
       </Search>
-      {signin ? (
+      {currentUser ? (
         <Info>
-          <VideoCallOutlinedIcon />
+          <VideoCallOutlinedIcon onClick={() => setOpen(true)} />
           <NotificationsNoneIcon fontSize="medium" />
-          <Image src="https://www.denofgeek.com/wp-content/uploads/2021/10/spider-man-no-way-home-tom-holland-doctor-strange-sony.jpg?fit=1200%2C680" />
+          <Image src={currentUser.img} />
         </Info>
       ) : (
         <Info>

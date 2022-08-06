@@ -7,6 +7,22 @@ import ReplyOutlinedIcon from "@mui/icons-material/ReplyOutlined";
 import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
 import VideoComment from "../components/VideoComment";
 import VideoCard from "../components/VideoCard";
+import { useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  fetchFailure,
+  fetchStart,
+  fetchSuccess,
+  like,
+  dislike,
+} from "../redux/videoSlice";
+import { subscription } from "../redux/userSlice";
+import { format } from "timeago.js";
+import axios from "axios";
+
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 
 const Container = styled.div`
   flex: 8;
@@ -79,6 +95,11 @@ const Meta = styled.div`
   gap: 3px;
   font-size: 14px;
   align-items: center;
+  cursor: pointer;
+
+  /* &:hover {
+    background-color: blue;
+  } */
 `;
 
 const VideoDescription = styled.div`
@@ -145,31 +166,117 @@ const VideoJoinButton = styled.button`
   font-size: 14px; ;
 `;
 
+const VideoFrame = styled.video`
+  max-height: 720px;
+  width: 100%;
+  object-fit: cover;
+`;
+
+const CommentInput = styled.textarea`
+  border: none;
+  border-bottom: 0.5px solid grey;
+  padding: 5px;
+  outline: none;
+  width: 80%;
+  background-color: transparent;
+  margin-bottom: 2em;
+`;
+
 const Video = () => {
+  const path = useLocation().pathname.split("/")[2];
+  // const p = window.location;
+  // console.log(path);
+  // console.log(p);
+  const { currentUser } = useSelector((state) => state.user);
+  const { currentVideo } = useSelector((state) => state.video);
+  const dispatch = useDispatch();
+  const [channel, setChannel] = useState({});
+  const [comments, setComments] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      dispatch(fetchStart());
+      try {
+        const videoRes = await axios.get(`/videos/find/${path}`);
+        // console.log(videoRes);
+        const channelRes = await axios.get(
+          `/users/find/${videoRes.data.userId}`
+        );
+        setChannel(channelRes.data);
+        dispatch(fetchSuccess(videoRes.data));
+      } catch (err) {
+        console.log(err);
+        dispatch(fetchFailure());
+      }
+    };
+    fetchData();
+  }, [path, dispatch]);
+
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        const res = await axios.get(`/comments/${currentVideo._id}`);
+        setComments(res.data);
+      } catch (err) {}
+    };
+    fetchComments();
+  }, [currentVideo._id]);
+
+  const handleLike = async () => {
+    await axios.put(`/users/like/${currentVideo._id}`);
+    dispatch(like(currentUser._id));
+  };
+
+  const handleDislike = async () => {
+    await axios.put(`/users/dislike/${currentVideo._id}`);
+    dispatch(dislike(currentUser._id));
+  };
+
+  const handleSub = async () => {
+    currentUser.subscribedTo.includes(channel._id)
+      ? await axios.put(`/users/unsub/${channel._id}`)
+      : await axios.put(`/users/sub/${channel._id}`);
+    dispatch(subscription(channel._id));
+  };
+
   return (
     <Container>
       <CurrentVideo>
         <VideoContainer>
-          <iframe
+          {/* <iframe
             width="100%"
             height="100%"
             src="https://www.youtube.com/embed/tgbNymZ7vqY"
-          ></iframe>
+          ></iframe> */}
+          <VideoFrame src={currentUser.videoUrl} />
         </VideoContainer>
 
         <VideoInfo>
-          <VideoTitle>Stark's Mastery</VideoTitle>
+          <VideoTitle>{currentVideo.title}</VideoTitle>
 
           <VideoMeta>
-            <VideoMetaOne>81K views · 3 days ago</VideoMetaOne>
+            <VideoMetaOne>
+              {currentVideo.views} views · {format(currentVideo?.createdAt)}
+            </VideoMetaOne>
             <VideoMetaTwo>
-              <Meta>
-                <ThumbUpAltOutlinedIcon style={{ fontSize: "18px" }} /> LIKE
+              <Meta onClick={handleLike}>
+                {currentVideo.likes?.includes(currentUser._id) ? (
+                  <ThumbUpIcon style={{ fontSize: "18px", color: "red" }} />
+                ) : (
+                  <ThumbUpAltOutlinedIcon style={{ fontSize: "18px" }} />
+                )}{" "}
+                {currentVideo.likes?.length}
               </Meta>
-              <Meta>
-                <ThumbDownAltOutlinedIcon style={{ fontSize: "18px" }} />{" "}
-                DISLIKE
+
+              <Meta onClick={handleDislike}>
+                {currentVideo.dislikes?.includes(currentUser._id) ? (
+                  <ThumbDownIcon style={{ fontSize: "18px", color: "red" }} />
+                ) : (
+                  <ThumbDownAltOutlinedIcon style={{ fontSize: "18px" }} />
+                )}{" "}
+                {currentVideo.dislikes?.length}
               </Meta>
+
               <Meta>
                 <ReplyOutlinedIcon style={{ fontSize: "18px" }} /> SHARE
               </Meta>
@@ -187,35 +294,46 @@ const Video = () => {
         </VideoInfo>
 
         <VideoDescription>
-          <VideoImage src="https://www.denofgeek.com/wp-content/uploads/2021/10/spider-man-no-way-home-tom-holland-doctor-strange-sony.jpg?fit=1200%2C680" />
+          <VideoImage src={channel.img} />
           <VideoText>
-            <POne>freecodeCamp</POne>
-            <PTwo>6M subscribers</PTwo>
+            <POne>{channel.name}</POne>
+            <PTwo>{channel.subscribers} subscribers</PTwo>
           </VideoText>
           <VideoButton>
             <VideoJoinButton>JOIN</VideoJoinButton>
-            <VideoSubscribeButton>SUBSCRIBE</VideoSubscribeButton>
+            <VideoSubscribeButton onClick={handleSub}>
+              {currentUser.subscribedTo?.includes(channel._id)
+                ? "SUBSCRIBED"
+                : "SUBSCRIBE"}
+            </VideoSubscribeButton>
           </VideoButton>
         </VideoDescription>
 
-        <VideoDesc>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras vel
-          neque ullamcorper, egestas dui imperdiet, faucibus dui. Nulla
-          facilisi. Morbi blandit ligula erat, sit amet porta ex bibendum at.
-          Curabitur a lacus sit amet elit lobortis tristique ac placerat odio.
-        </VideoDesc>
+        <VideoDesc>{channel.desc}</VideoDesc>
         <Hr />
 
+        <VideoDescription>
+          <VideoImage src={channel.img} />
+          <CommentInput placeholder="Enter comment" />
+        </VideoDescription>
+
+        {comments.map((comment) => (
+          <VideoComment
+            key={comment._id}
+            comment={comment}
+            user={currentUser}
+          />
+        ))}
+        {/* <VideoComment />
         <VideoComment />
         <VideoComment />
         <VideoComment />
         <VideoComment />
-        <VideoComment />
-        <VideoComment />
-        <VideoComment />
+        <VideoComment /> */}
       </CurrentVideo>
 
       <Recommendation>
+        {/* <VideoCard recommendation={true} />
         <VideoCard recommendation={true} />
         <VideoCard recommendation={true} />
         <VideoCard recommendation={true} />
@@ -245,8 +363,7 @@ const Video = () => {
         <VideoCard recommendation={true} />
         <VideoCard recommendation={true} />
         <VideoCard recommendation={true} />
-        <VideoCard recommendation={true} />
-        <VideoCard recommendation={true} />
+        <VideoCard recommendation={true} /> */}
       </Recommendation>
     </Container>
   );

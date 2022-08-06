@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import axios from "axios";
 
 const Container = styled.div`
   display: flex;
@@ -25,17 +26,23 @@ const CommentBody = styled.div`
   font-size: 13px;
 `;
 
-const VideoComment = () => {
+const VideoComment = ({ comment, user }) => {
+  const [channel, setChannel] = useState({});
+  useEffect(() => {
+    const fetchComment = async () => {
+      try {
+        const res = await axios.get(`/users/find/${comment.userId}`);
+        setChannel(res.data);
+      } catch (err) {}
+    };
+    fetchComment();
+  }, [comment.userId]);
   return (
     <Container>
-      <Img src="https://www.denofgeek.com/wp-content/uploads/2021/10/spider-man-no-way-home-tom-holland-doctor-strange-sony.jpg?fit=1200%2C680" />
+      <Img src={channel.img} />
       <Comment>
-        <CommentHeader>Franks laboratory</CommentHeader>
-        <CommentBody>
-          {" "}
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras vel
-          neque ullamcorper, egestas dui imperdiet,{" "}
-        </CommentBody>
+        <CommentHeader>{channel.name}</CommentHeader>
+        <CommentBody>{comment.desc}</CommentBody>
       </Comment>
     </Container>
   );
