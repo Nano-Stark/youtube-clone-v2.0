@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import { errorState } from "../middlewares/error.js";
@@ -12,9 +11,9 @@ export const register = async (req, res, next) => {
     await newUser.save();
     res.status(200).json("new User created");
   } catch (err) {
-    // console.log(err);
-    // next(err)
-    next(errorState(404, "not found"));
+    console.log(err);
+    // next(err);
+    next(errorState(404, "User name or email already exist"));
   }
 };
 
@@ -32,16 +31,16 @@ export const signin = async (req, res, next) => {
     if (!isPasswordCorrect) return next(errorState(404, "Wrong Password"));
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
     const { password, ...others } = user._doc;
-    res
-      .cookie("access_token", token, { httpOnly: true })
-      .status(200)
-      .json(others);
+    res.cookie("access_token", token, { httpOnly: false });
+    res.status(200).json(others);
+    console.log(token);
+    console.log(others);
   } catch (err) {
     next(err);
   }
 };
 
-export const logout = async (req, res, next) => {
+export const logout = (req, res, next) => {
   try {
     res
       .clearCookie("access_token")
