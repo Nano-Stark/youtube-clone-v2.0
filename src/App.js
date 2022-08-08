@@ -5,10 +5,14 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Video from "./pages/Video";
 import SignIn from "./pages/SignIn";
+import SearchResult from "./components/SearchResult";
 import { Routes, Route } from "react-router-dom";
 import { darkTheme, lightTheme } from "./utils/Theme";
 
-const Container = styled.div``;
+const Container = styled.div`
+  height: 100vh;
+  overflow: hidden;
+`;
 
 const Wrapper = styled.div`
   display: flex;
@@ -26,7 +30,7 @@ function App() {
   const [darkMode, setDarkMode] = useState(false);
   // pathname for hiding menu when its on the path /video
   const pathname = window.location.pathname;
-  console.log(window.location.pathname);
+  // console.log(window.location.pathname);
   return (
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
       <Container>
@@ -59,6 +63,10 @@ function App() {
             <Route
               path="/signin"
               element={<SignIn activeMenu={activeMenu} />}
+            />
+            <Route
+              path="/search"
+              element={<SearchResult activeMenu={activeMenu} />}
             />
           </Routes>
         </Wrapper>

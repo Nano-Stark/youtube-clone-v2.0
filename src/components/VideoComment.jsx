@@ -5,7 +5,7 @@ import axios from "axios";
 const Container = styled.div`
   display: flex;
   gap: 20px;
-  margin-top: 20px;
+  margin-top: 10px;
 `;
 const Img = styled.img`
   height: 50px;

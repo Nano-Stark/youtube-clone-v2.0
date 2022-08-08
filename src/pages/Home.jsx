@@ -5,6 +5,9 @@ import VideoCard from "../components/VideoCard";
 
 const Container = styled.div`
   flex: 8;
+  height: calc(100vh - 65px);
+  overflow-y: scroll;
+  overflow-x: hidden;
 `;
 
 const Wrapper = styled.div`
@@ -21,7 +24,7 @@ const QuickItem = styled.div`
   border-top: 1px solid ${({ theme }) => theme.textSoft};
   border-bottom: 1px solid ${({ theme }) => theme.textSoft};
   position: sticky;
-  top: 65px;
+  /* top: 65px; */
   z-index: 999;
 `;
 

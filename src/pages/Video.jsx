@@ -6,9 +6,9 @@ import ContentCutOutlinedIcon from "@mui/icons-material/ContentCutOutlined";
 import ReplyOutlinedIcon from "@mui/icons-material/ReplyOutlined";
 import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
 import VideoComment from "../components/VideoComment";
-import VideoCard from "../components/VideoCard";
+
 import { useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   fetchFailure,
@@ -23,39 +23,32 @@ import axios from "axios";
 
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
+import Recommendation from "../components/Recommendation";
+import CommentInput from "../components/CommentInput";
+
+const Padding = styled.div`
+  height: 100px;
+  width: 100%;
+`;
 
 const Container = styled.div`
   flex: 8;
   display: flex;
-  /* grid-template-columns: auto auto auto auto auto auto auto; */
-  /* grid-template-columns: 400px auto; */
   padding: 30px 45px;
   column-gap: 20px;
-  /* height: calc(100vh - 100px); */
+  height: calc(100vh - 100px);
   overflow-y: scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;
-
   &::-webkit-scrollbar {
     display: none;
   }
-
   color: ${({ theme }) => theme.text};
 `;
 
 const CurrentVideo = styled.div`
-  /* grid-column-start: 1; */
-  /* grid-column-end: 4; */
   flex: 6;
-  /* background-color: red; */
   height: 72vh;
-`;
-
-const Recommendation = styled.div`
-  /* grid-column-start: 4; */
-  /* grid-column-end: 8; */
-  flex: 3;
-  /* background-color: green; */
 `;
 
 const VideoContainer = styled.div`
@@ -96,10 +89,6 @@ const Meta = styled.div`
   font-size: 14px;
   align-items: center;
   cursor: pointer;
-
-  /* &:hover {
-    background-color: blue;
-  } */
 `;
 
 const VideoDescription = styled.div`
@@ -168,18 +157,9 @@ const VideoJoinButton = styled.button`
 
 const VideoFrame = styled.video`
   max-height: 720px;
+  height: 100%;
   width: 100%;
   object-fit: cover;
-`;
-
-const CommentInput = styled.textarea`
-  border: none;
-  border-bottom: 0.5px solid grey;
-  padding: 5px;
-  outline: none;
-  width: 80%;
-  background-color: transparent;
-  margin-bottom: 2em;
 `;
 
 const Video = () => {
@@ -192,6 +172,12 @@ const Video = () => {
   const dispatch = useDispatch();
   const [channel, setChannel] = useState({});
   const [comments, setComments] = useState([]);
+  const [idle, setIdle] = useState(false);
+  const videoRef = useRef();
+
+  useEffect(() => {
+    videoRef.current.play();
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -217,10 +203,12 @@ const Video = () => {
       try {
         const res = await axios.get(`/comments/${currentVideo._id}`);
         setComments(res.data);
+        // console.log(comments.sort((a, b) => a.createdAt - b.createdAt));
+        // console.log(comments);
       } catch (err) {}
     };
     fetchComments();
-  }, [currentVideo._id]);
+  }, [currentVideo._id, idle]);
 
   const handleLike = async () => {
     await axios.put(`/users/like/${currentVideo._id}`);
@@ -240,6 +228,7 @@ const Video = () => {
   };
 
   return (
+    // <Wrap>
     <Container>
       <CurrentVideo>
         <VideoContainer>
@@ -248,7 +237,12 @@ const Video = () => {
             height="100%"
             src="https://www.youtube.com/embed/tgbNymZ7vqY"
           ></iframe> */}
-          <VideoFrame src={currentUser.videoUrl} />
+          <VideoFrame
+            ref={videoRef}
+            src={currentVideo.videoUrl}
+            controls
+            autoplay
+          />
         </VideoContainer>
 
         <VideoInfo>
@@ -312,10 +306,7 @@ const Video = () => {
         <VideoDesc>{channel.desc}</VideoDesc>
         <Hr />
 
-        <VideoDescription>
-          <VideoImage src={channel.img} />
-          <CommentInput placeholder="Enter comment" />
-        </VideoDescription>
+        <CommentInput placeholder="Enter comment" setIdle={setIdle} />
 
         {comments.map((comment) => (
           <VideoComment
@@ -324,47 +315,10 @@ const Video = () => {
             user={currentUser}
           />
         ))}
-        {/* <VideoComment />
-        <VideoComment />
-        <VideoComment />
-        <VideoComment />
-        <VideoComment />
-        <VideoComment /> */}
+        <Padding />
       </CurrentVideo>
 
-      <Recommendation>
-        {/* <VideoCard recommendation={true} />
-        <VideoCard recommendation={true} />
-        <VideoCard recommendation={true} />
-        <VideoCard recommendation={true} />
-        <VideoCard recommendation={true} />
-        <VideoCard recommendation={true} />
-        <VideoCard recommendation={true} />
-        <VideoCard recommendation={true} />
-        <VideoCard recommendation={true} />
-        <VideoCard recommendation={true} />
-        <VideoCard recommendation={true} />
-        <VideoCard recommendation={true} />
-        <VideoCard recommendation={true} />
-        <VideoCard recommendation={true} />
-        <VideoCard recommendation={true} />
-        <VideoCard recommendation={true} />
-        <VideoCard recommendation={true} />
-        <VideoCard recommendation={true} />
-        <VideoCard recommendation={true} />
-        <VideoCard recommendation={true} />
-        <VideoCard recommendation={true} />
-        <VideoCard recommendation={true} />
-        <VideoCard recommendation={true} />
-        <VideoCard recommendation={true} />
-        <VideoCard recommendation={true} />
-        <VideoCard recommendation={true} />
-        <VideoCard recommendation={true} />
-        <VideoCard recommendation={true} />
-        <VideoCard recommendation={true} />
-        <VideoCard recommendation={true} />
-        <VideoCard recommendation={true} /> */}
-      </Recommendation>
+      <Recommendation video={currentVideo} tags={currentVideo.tags} />
     </Container>
   );
 };

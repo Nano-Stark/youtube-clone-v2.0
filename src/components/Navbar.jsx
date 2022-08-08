@@ -1,15 +1,18 @@
 import MenuIcon from "@mui/icons-material/Menu";
 import VideoCallOutlinedIcon from "@mui/icons-material/VideoCallOutlined";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
-import MicIcon from "@mui/icons-material/Mic";
-import SearchIcon from "@mui/icons-material/Search";
 import styled from "styled-components";
 import { IconButton } from "@mui/material";
 import LogoImage from "../utils/Youtube-logo.png";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Search from "../components/Search";
+import LogoutIcon from "@mui/icons-material/Logout";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { logout } from "../redux/userSlice";
 
 const Container = styled.div`
   z-index: 999;
@@ -41,12 +44,6 @@ const Logotwo = styled.div`
   font-size: 20px;
 `;
 
-const Search = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 1em;
-`;
-
 const Info = styled.div`
   display: flex;
   align-items: center;
@@ -76,10 +73,24 @@ const Input = styled.input`
 const Image = styled.img`
   height: 36px;
   width: 36px;
-  margin-right: 2em;
+  margin-right: 1em;
   margin-left: 1.2em;
   border-radius: 50%;
   object-fit: cover;
+`;
+
+const Div = styled.div`
+  margin-right: 1em;
+  background-color: ${({ theme }) => theme.bg};
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px;
+  cursor: pointer;
+  :hover {
+    transform: scale(1.09);
+  }
 `;
 
 const ImageLogo = styled.img`
@@ -113,6 +124,21 @@ const SignInButton = styled.div`
 const Navbar = ({ activeMenu, setActiveMenu }) => {
   const { currentUser } = useSelector((state) => state.user);
   const [open, setOpen] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    if (currentUser !== null) {
+      // await axios.post("/auth/logout", {});
+    }
+    dispatch(logout());
+    navigate("/");
+  };
+
+  useEffect(() => {
+    navigate("/");
+  }, [currentUser]);
+
   return (
     <Container>
       <Logo>
@@ -124,40 +150,19 @@ const Navbar = ({ activeMenu, setActiveMenu }) => {
           StarkTube
         </Logotwo>
       </Logo>
-      <Search>
-        <InputWrapper>
-          <Input placeholder="Search" />
-          <IconWrapper sx={{ borderRadius: 0 }}>
-            <SearchIcon
-              style={
-                {
-                  // paddingLeft: "0.5em",
-                  // paddingRight: "0.5em",
-                  // backgroundColor: "#F0F0F0",
-                  // height: "100%",
-                }
-              }
-            />
-          </IconWrapper>
-        </InputWrapper>
-
-        <IconWrapper>
-          <MicIcon
-            style={
-              {
-                // borderRadius: "50%",
-                // backgroundColor: "#181818",
-                // padding: "0.1em",
-              }
-            }
-          />
-        </IconWrapper>
-      </Search>
+      <Search />
       {currentUser ? (
         <Info>
-          <VideoCallOutlinedIcon onClick={() => setOpen(true)} />
+          <VideoCallOutlinedIcon
+            onClick={() => {
+              return setOpen(true);
+            }}
+          />
           <NotificationsNoneIcon fontSize="medium" />
           <Image src={currentUser.img} />
+          <Div onClick={handleLogout}>
+            <LogoutIcon style={{ color: "#FF0000" }} />
+          </Div>
         </Info>
       ) : (
         <Info>

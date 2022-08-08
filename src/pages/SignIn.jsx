@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { loginFailure, loginStart, loginSuccess } from "../redux/userSlice";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   flex: 8;
@@ -66,6 +67,7 @@ const SignIn = () => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSignin = async (e) => {
     e.preventDefault();
@@ -76,7 +78,8 @@ const SignIn = () => {
         password,
       });
       dispatch(loginSuccess(res.data));
-      console.log(res.data);
+      navigate("/");
+      // console.log(res.data);
     } catch (err) {
       console.log(err);
       dispatch(loginFailure());
