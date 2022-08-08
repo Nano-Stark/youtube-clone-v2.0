@@ -189,6 +189,7 @@ const Video = () => {
         );
         setChannel(channelRes.data);
         dispatch(fetchSuccess(videoRes.data));
+        console.log("dispatch video");
       } catch (err) {
         console.log(err);
         dispatch(fetchFailure());
@@ -200,11 +201,15 @@ const Video = () => {
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const res = await Axios.get(`/comments/${currentVideo._id}`);
+        const res = await Axios.get(`/comments/${currentVideo._id}`, {
+          withCredentials: true,
+        });
         setComments(res.data);
         // console.log(comments.sort((a, b) => a.createdAt - b.createdAt));
         // console.log(comments);
-      } catch (err) {}
+      } catch (err) {
+        console.log(err);
+      }
     };
     fetchComments();
   }, [currentVideo._id, idle]);

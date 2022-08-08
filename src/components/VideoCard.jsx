@@ -8,8 +8,6 @@ import { Link } from "react-router-dom";
 import useHover from "@react-hook/hover";
 
 const Container = styled.div`
-  /* background-color: ${(props) =>
-    props.recommendation === true ? "blue" : "gray"}; */
   margin: 3px;
   z-index: 1;
   display: ${(props) => (props.recommendation === true ? "flex" : "")};
@@ -24,9 +22,7 @@ const Container = styled.div`
 `;
 
 const Video = styled.video`
-  /* height: ${(props) => (props.recommendation === true ? "" : "")}; */
   width: ${(props) => (props.recommendation === true ? "160px" : "100%")};
-  /* background-color: red; */
   object-fit: cover;
 `;
 
@@ -35,7 +31,6 @@ const VideoInfoContainer = styled.div`
   align-items: flex-start;
   gap: 10px;
   padding: 10px;
-  /* background-color: red; */
   width: 100%;
 `;
 
@@ -48,15 +43,12 @@ const VideoImage = styled.img`
 `;
 
 const VideoInfo = styled.div`
-  /* background-color: white; */
   display: flex;
   justify-content: space-between;
   width: 100%;
 `;
 
-const InfoContainer = styled.div`
-  /* flex: 1; */
-`;
+const InfoContainer = styled.div``;
 
 const InfoContainertwo = styled.div`
   margin-right: ${(props) => (props.recommendation === true ? "" : "10px")};
@@ -94,7 +86,7 @@ const VideoCard = ({ recommendation, video }) => {
 
   useEffect(() => {
     isHovering ? videoRef.current.play() : videoRef.current.pause();
-    console.log(isHovering);
+    // console.log(isHovering);
   }, [isHovering]);
 
   useEffect(() => {

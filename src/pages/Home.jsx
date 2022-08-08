@@ -74,6 +74,7 @@ const Home = ({ activeMenu, type }) => {
       } catch (err) {
         console.log(err);
         setError(true);
+        console.log("error", err);
       }
     };
     fetchVideos();

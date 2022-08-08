@@ -36,7 +36,7 @@ const Search = () => {
     <Container>
       <Wrapper>
         {videos.map((video) => (
-          <VideoCard key={video.id} video={video} />
+          <VideoCard key={video._id} video={video} />
         ))}
       </Wrapper>
     </Container>

@@ -10,9 +10,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import Search from "../components/Search";
 import LogoutIcon from "@mui/icons-material/Logout";
-import axios from "axios";
+import Axios from "../Axios";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../redux/userSlice";
+import Upload from "./Upload";
 
 const Container = styled.div`
   z-index: 999;
@@ -118,7 +119,6 @@ const SignInButton = styled.div`
   color: blue;
   padding: 7px;
   margin-right: 3em;
-  /* text-decoration-line: none; */
 `;
 
 const Navbar = ({ activeMenu, setActiveMenu }) => {
@@ -128,9 +128,7 @@ const Navbar = ({ activeMenu, setActiveMenu }) => {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    if (currentUser !== null) {
-      // await axios.post("/auth/logout", {});
-    }
+    await Axios.post("/auth/logout", { withCredentials: true });
     dispatch(logout());
     navigate("/");
   };
@@ -140,41 +138,44 @@ const Navbar = ({ activeMenu, setActiveMenu }) => {
   }, [currentUser]);
 
   return (
-    <Container>
-      <Logo>
-        <IconWrapper onClick={() => setActiveMenu(!activeMenu)} sx={{}}>
-          <MenuIcon />
-        </IconWrapper>
-        <Logotwo>
-          <ImageLogo src={LogoImage} />
-          StarkTube
-        </Logotwo>
-      </Logo>
-      <Search />
-      {currentUser ? (
-        <Info>
-          <VideoCallOutlinedIcon
-            onClick={() => {
-              return setOpen(true);
-            }}
-          />
-          <NotificationsNoneIcon fontSize="medium" />
-          <Image src={currentUser.img} />
-          <Div onClick={handleLogout}>
-            <LogoutIcon style={{ color: "#FF0000" }} />
-          </Div>
-        </Info>
-      ) : (
-        <Info>
-          <Link to="/signin" style={{ textDecorationLine: "none" }}>
-            <SignInButton>
-              <AccountCircleOutlinedIcon />
-              SIGN IN
-            </SignInButton>
-          </Link>
-        </Info>
-      )}
-    </Container>
+    <>
+      <Container>
+        <Logo>
+          <IconWrapper onClick={() => setActiveMenu(!activeMenu)} sx={{}}>
+            <MenuIcon />
+          </IconWrapper>
+          <Logotwo>
+            <ImageLogo src={LogoImage} />
+            StarkTube
+          </Logotwo>
+        </Logo>
+        <Search />
+        {currentUser ? (
+          <Info>
+            <VideoCallOutlinedIcon
+              onClick={() => {
+                return setOpen(true);
+              }}
+            />
+            <NotificationsNoneIcon fontSize="medium" />
+            <Image src={currentUser.img} />
+            <Div onClick={handleLogout}>
+              <LogoutIcon style={{ color: "#FF0000" }} />
+            </Div>
+          </Info>
+        ) : (
+          <Info>
+            <Link to="/signin" style={{ textDecorationLine: "none" }}>
+              <SignInButton>
+                <AccountCircleOutlinedIcon />
+                SIGN IN
+              </SignInButton>
+            </Link>
+          </Info>
+        )}
+      </Container>
+      {open && <Upload setOpen={setOpen} />}
+    </>
   );
 };
 

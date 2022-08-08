@@ -71,6 +71,7 @@ const CommentInput = ({ setIdle }) => {
         videoId: currentVideo._id,
         desc: comment,
       });
+      await setComment("");
     };
     postComment();
     // console.log({
