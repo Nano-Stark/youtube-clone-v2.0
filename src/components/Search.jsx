@@ -47,11 +47,13 @@ const Search = () => {
     <Container>
       <InputWrapper>
         <Input placeholder="Search" onChange={(e) => setQ(e.target.value)} />
-        <IconWrapper sx={{ borderRadius: 0 }}>
+        <IconWrapper
+          sx={{ borderRadius: 0 }}
+          onClick={() => {
+            navigate(`/search?q=${q}`);
+          }}
+        >
           <SearchIcon
-            onClick={() => {
-              navigate(`/search?q=${q}`);
-            }}
             style={
               {
                 // paddingLeft: "0.5em",
