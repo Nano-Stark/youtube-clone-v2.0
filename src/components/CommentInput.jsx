@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
-import axios from "axios";
+import Axios from "../Axios";
 
 const CommentInputter = styled.textarea`
   border: none;
@@ -66,7 +66,7 @@ const CommentInput = ({ setIdle }) => {
     e.preventDefault();
     setIdle((prev) => !prev);
     const postComment = async () => {
-      await axios.post("/comments", {
+      await Axios.post("/comments", {
         userId: currentUser._id,
         videoId: currentVideo._id,
         desc: comment,

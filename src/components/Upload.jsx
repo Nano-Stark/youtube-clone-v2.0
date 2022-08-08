@@ -5,7 +5,7 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 import { storage } from "../firebase";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import Axios from "../Axios";
 
 const Container = styled.div`
   width: 100%;
@@ -174,7 +174,7 @@ const Upload = ({ setOpen }) => {
   const handleUpload = async (e) => {
     e.preventDefault();
     console.log({ ...inputs, tags });
-    const res = await axios.post("/videos", { ...inputs, tags });
+    const res = await Axios.post("/videos", { ...inputs, tags });
     setOpen(false);
     res.status === 200 && navigate(`/video/${res.data._id}`);
   };

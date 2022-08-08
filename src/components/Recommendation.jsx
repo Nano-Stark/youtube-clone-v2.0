@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import VideoCard from "./VideoCard";
 import styled from "styled-components";
-import axios from "axios";
+import Axios from "../Axios";
 
 const Recommendations = styled.div`
   flex: 3;
@@ -17,7 +17,7 @@ const Recommendation = ({ video, tags }) => {
 
   useEffect(() => {
     const fetchVideos = async () => {
-      const res = await axios.get(`/videos/tags?tags=${tags}`);
+      const res = await Axios.get(`/videos/tags?tags=${tags}`);
       setVideos(
         res.data.splice(
           res.data.findIndex((_id) => _id === video._id),

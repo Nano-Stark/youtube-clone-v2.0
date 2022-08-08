@@ -3,7 +3,7 @@ import styled from "styled-components";
 import MoreVertOutlinedIcon from "@mui/icons-material/MoreVertOutlined";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { format } from "timeago.js";
-import axios from "axios";
+import Axios from "../Axios";
 import { Link } from "react-router-dom";
 import useHover from "@react-hook/hover";
 
@@ -100,7 +100,7 @@ const VideoCard = ({ recommendation, video }) => {
   useEffect(() => {
     const fetchChannel = async () => {
       try {
-        const res = await axios.get(`/users/find/${video.userId}`);
+        const res = await Axios.get(`/users/find/${video.userId}`);
         setChannel(res.data);
         setError(false);
       } catch (err) {

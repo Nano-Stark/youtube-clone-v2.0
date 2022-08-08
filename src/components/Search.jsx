@@ -3,7 +3,7 @@ import styled from "styled-components";
 import MicIcon from "@mui/icons-material/Mic";
 import SearchIcon from "@mui/icons-material/Search";
 import { IconButton } from "@mui/material";
-import axios from "axios";
+import Axios from "../Axios";
 import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`

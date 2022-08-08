@@ -1,4 +1,4 @@
-import axios from "axios";
+import Axios from "../Axios";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
@@ -73,7 +73,7 @@ const SignIn = () => {
     e.preventDefault();
     dispatch(loginStart());
     try {
-      const res = await axios.post("/auth/signin", {
+      const res = await Axios.post("/auth/signin", {
         email,
         password,
       });
@@ -88,7 +88,7 @@ const SignIn = () => {
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("/auth/register", {
+      const res = await Axios.post("/auth/register", {
         name: username,
         password,
         email,

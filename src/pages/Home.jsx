@@ -1,4 +1,4 @@
-import axios from "axios";
+import Axios from "../Axios";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import VideoCard from "../components/VideoCard";
@@ -68,7 +68,7 @@ const Home = ({ activeMenu, type }) => {
   useEffect(() => {
     const fetchVideos = async () => {
       try {
-        const res = await axios.get(`/videos/${type}`);
+        const res = await Axios.get(`/videos/${type}`);
         setVideos(res.data);
         setError(false);
       } catch (err) {

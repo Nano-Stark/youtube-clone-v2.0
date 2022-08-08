@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import axios from "axios";
+import Axios from "../Axios";
 
 const Container = styled.div`
   display: flex;
@@ -31,7 +31,7 @@ const VideoComment = ({ comment, user }) => {
   useEffect(() => {
     const fetchComment = async () => {
       try {
-        const res = await axios.get(`/users/find/${comment.userId}`);
+        const res = await Axios.get(`/users/find/${comment.userId}`);
         setChannel(res.data);
       } catch (err) {}
     };
