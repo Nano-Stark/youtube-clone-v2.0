@@ -31,10 +31,11 @@ export const signin = async (req, res, next) => {
     if (!isPasswordCorrect) return next(errorState(404, "Wrong Password"));
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
     const { password, ...others } = user._doc;
-    res.cookie("access_token", token, { httpOnly: false });
+    res.cookie("access_token", token, {
+      maxAge: 1000 * 60 * 30,
+      httpOnly: false,
+    });
     res.status(200).json(others);
-    console.log(token);
-    console.log(others);
   } catch (err) {
     next(err);
   }

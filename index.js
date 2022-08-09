@@ -23,9 +23,10 @@ const connectDB = () => {
 };
 
 // http://localhost:3000
+const whitelist = ["http://localhost:3000", "https://starktube.netlify.app"];
 
 app.use(express.json());
-app.use(cors({ origin: "https://starktube.netlify.app", credentials: true }));
+app.use(cors({ origin: whitelist, credentials: true }));
 app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
