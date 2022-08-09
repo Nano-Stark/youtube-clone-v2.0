@@ -205,8 +205,6 @@ const Video = () => {
           withCredentials: true,
         });
         setComments(res.data);
-        // console.log(comments.sort((a, b) => a.createdAt - b.createdAt));
-        // console.log(comments);
       } catch (err) {
         console.log(err);
       }
@@ -216,16 +214,16 @@ const Video = () => {
 
   const handleLike = async () => {
     await Axios.put(`/users/like/${currentVideo._id}`);
-    dispatch(like(currentUser._id));
+    dispatch(like(currentUser?._id));
   };
 
   const handleDislike = async () => {
     await Axios.put(`/users/dislike/${currentVideo._id}`);
-    dispatch(dislike(currentUser._id));
+    dispatch(dislike(currentUser?._id));
   };
 
   const handleSub = async () => {
-    currentUser.subscribedTo.includes(channel._id)
+    currentUser?.subscribedTo.includes(channel._id)
       ? await Axios.put(`/users/unsub/${channel._id}`)
       : await Axios.put(`/users/sub/${channel._id}`);
     dispatch(subscription(channel._id));
@@ -258,7 +256,7 @@ const Video = () => {
             </VideoMetaOne>
             <VideoMetaTwo>
               <Meta onClick={handleLike}>
-                {currentVideo.likes?.includes(currentUser._id) ? (
+                {currentVideo.likes?.includes(currentUser?._id) ? (
                   <ThumbUpIcon style={{ fontSize: "18px", color: "red" }} />
                 ) : (
                   <ThumbUpAltOutlinedIcon style={{ fontSize: "18px" }} />
@@ -267,7 +265,7 @@ const Video = () => {
               </Meta>
 
               <Meta onClick={handleDislike}>
-                {currentVideo.dislikes?.includes(currentUser._id) ? (
+                {currentVideo.dislikes?.includes(currentUser?._id) ? (
                   <ThumbDownIcon style={{ fontSize: "18px", color: "red" }} />
                 ) : (
                   <ThumbDownAltOutlinedIcon style={{ fontSize: "18px" }} />
@@ -300,7 +298,7 @@ const Video = () => {
           <VideoButton>
             <VideoJoinButton>JOIN</VideoJoinButton>
             <VideoSubscribeButton onClick={handleSub}>
-              {currentUser.subscribedTo?.includes(channel._id)
+              {currentUser?.subscribedTo?.includes(channel._id)
                 ? "SUBSCRIBED"
                 : "SUBSCRIBE"}
             </VideoSubscribeButton>
@@ -313,11 +311,7 @@ const Video = () => {
         <CommentInput placeholder="Enter comment" setIdle={setIdle} />
 
         {comments.map((comment) => (
-          <VideoComment
-            key={comment._id}
-            comment={comment}
-            user={currentUser}
-          />
+          <VideoComment key={comment._id} comment={comment} />
         ))}
         <Padding />
       </CurrentVideo>

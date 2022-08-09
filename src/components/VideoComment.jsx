@@ -26,7 +26,7 @@ const CommentBody = styled.div`
   font-size: 13px;
 `;
 
-const VideoComment = ({ comment, user }) => {
+const VideoComment = ({ comment }) => {
   const [channel, setChannel] = useState({});
   useEffect(() => {
     const fetchComment = async () => {

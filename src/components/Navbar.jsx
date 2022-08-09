@@ -14,6 +14,7 @@ import Axios from "../Axios";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../redux/userSlice";
 import Upload from "./Upload";
+import { clearVideo } from "../redux/videoSlice";
 
 const Container = styled.div`
   z-index: 999;
@@ -130,6 +131,7 @@ const Navbar = ({ activeMenu, setActiveMenu }) => {
   const handleLogout = async () => {
     await Axios.post("/auth/logout", { withCredentials: true });
     dispatch(logout());
+    dispatch(clearVideo());
     navigate("/");
   };
 

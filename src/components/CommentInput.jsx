@@ -85,19 +85,25 @@ const CommentInput = ({ setIdle }) => {
 
   return (
     <VideoDescription>
-      <VideoImage src={currentUser.img} />
-      <Form>
-        <CommentInputter
-          placeholder="Enter comment"
-          rows={4}
-          onChange={(e) => setComment(e.target.value)}
-        />
-        <ButtonContainer>
-          <Button type="submit" onClick={(e) => handleSubmit(e)}>
-            COMMENT
-          </Button>
-        </ButtonContainer>
-      </Form>
+      {currentUser ? (
+        <>
+          <VideoImage src={currentUser?.img} />
+          <Form>
+            <CommentInputter
+              placeholder="Enter comment"
+              rows={4}
+              onChange={(e) => setComment(e.target.value)}
+            />
+            <ButtonContainer>
+              <Button type="submit" onClick={(e) => handleSubmit(e)}>
+                COMMENT
+              </Button>
+            </ButtonContainer>
+          </Form>
+        </>
+      ) : (
+        ""
+      )}
     </VideoDescription>
   );
 };

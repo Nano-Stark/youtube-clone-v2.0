@@ -22,6 +22,11 @@ export const videoSlice = createSlice({
       state.loading = false;
       state.error = true;
     },
+    clearVideo: (state) => {
+      state.currentVideo = null;
+      state.loading = false;
+      state.error = false;
+    },
     like: (state, action) => {
       if (!state.currentVideo.likes.includes(action.payload)) {
         state.currentVideo.likes.push(action.payload);
@@ -48,7 +53,13 @@ export const videoSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { fetchStart, fetchSuccess, fetchFailure, like, dislike } =
-  videoSlice.actions;
+export const {
+  fetchStart,
+  fetchSuccess,
+  fetchFailure,
+  clearVideo,
+  like,
+  dislike,
+} = videoSlice.actions;
 
 export default videoSlice.reducer;

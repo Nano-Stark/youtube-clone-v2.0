@@ -6,6 +6,8 @@ import { format } from "timeago.js";
 import Axios from "../Axios";
 import { Link } from "react-router-dom";
 import useHover from "@react-hook/hover";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchSuccess } from "../redux/videoSlice";
 
 const Container = styled.div`
   margin: 3px;
@@ -80,6 +82,8 @@ const VideoMetaData = styled.p`
 const VideoCard = ({ recommendation, video }) => {
   const [channel, setChannel] = useState({});
   const [error, setError] = useState(false);
+  const dispatch = useDispatch();
+  const { currentUser } = useSelector((state) => state.user);
 
   const videoRef = useRef();
   const isHovering = useHover(videoRef); //, {enterDelay: 200, leaveDelay: 200})
@@ -102,10 +106,16 @@ const VideoCard = ({ recommendation, video }) => {
     };
     fetchChannel();
   }, [video.userId]);
+
+  const handleDispatch = () => {
+    dispatch(fetchSuccess(video));
+  };
+
   return (
     <Link
       to={`/video/${video._id}`}
       style={{ textDecoration: "none", color: "inherit" }}
+      onClick={handleDispatch}
     >
       <Container recommendation={recommendation}>
         <Video

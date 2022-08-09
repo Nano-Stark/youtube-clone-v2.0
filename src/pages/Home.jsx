@@ -24,7 +24,7 @@ const QuickItem = styled.div`
   border-top: 1px solid ${({ theme }) => theme.textSoft};
   border-bottom: 1px solid ${({ theme }) => theme.textSoft};
   position: sticky;
-  /* top: 65px; */
+  top: 0;
   z-index: 999;
 `;
 
@@ -54,14 +54,6 @@ const Bubble = styled.span`
 
 const Home = ({ activeMenu, type }) => {
   const wrapperRef = useRef(null);
-  // const [wrapperWidth, setWrapperWidth] = useState(0);
-
-  // useLayoutEffect(() => {
-  //   setWrapperWidth(wrapperRef.current.clientWidth);
-  //   console.log(wrapperRef.current.clientWidth);
-  // }, [wrapperRef.current.clientWidth]);
-
-  // console.log(wrapperWidth);
 
   const [videos, setVideos] = useState([]);
   const [error, setError] = useState(false);
