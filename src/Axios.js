@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const Axios = axios.create({
-  baseURL: "https://yt-clone2.herokuapp.com/api",
+  baseURL: "https://yt-server.vercel.app/api",
   withCredentials: true,
 });
 
