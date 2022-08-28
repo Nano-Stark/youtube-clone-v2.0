@@ -29,7 +29,7 @@ const whitelist = ["http://localhost:3000", "https://starktube.netlify.app"];
 app.use(express.json());
 app.use(cors({ origin: whitelist, credentials: true }));
 app.use(cookieParser());
-
+//
 app.use(express.static("build"));
 
 app.use("/api/auth", authRoutes);
