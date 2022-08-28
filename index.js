@@ -31,7 +31,7 @@ const connectDB = () => {
 
 //  Useful if frontend and backend are on separate origin
 // http://localhost:3000
-const whitelist = ["http://localhost:3000", "https://starktube.netlify.app"];
+const whitelist = ["http://localhost:3000", "https://starktube.netlify.app", "https://yt-clone2.herokuapp.com"];
 
 app.use(express.json());
 app.use(cors({ origin: whitelist, credentials: true }));
