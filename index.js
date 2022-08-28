@@ -22,6 +22,7 @@ const connectDB = () => {
     });
 };
 
+//  Useful if frontend and backend are on separate origin
 // http://localhost:3000
 const whitelist = ["http://localhost:3000", "https://starktube.netlify.app"];
 
