@@ -7,6 +7,13 @@ import commentRoutes from "./routes/comments.js";
 import authRoutes from "./routes/auth.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import path from "path";
+import { fileURLToPath } from "url";
+// __dirname is available in commonjs and not ES6. This is the
+//  work around.
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+console.log(__dirname);
 
 const app = express();
 dotenv.config();
@@ -29,7 +36,7 @@ const whitelist = ["http://localhost:3000", "https://starktube.netlify.app"];
 app.use(express.json());
 app.use(cors({ origin: whitelist, credentials: true }));
 app.use(cookieParser());
-app.use(express.static("build"));
+app.use(express.static(path.join(__dirname, "/public")));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);

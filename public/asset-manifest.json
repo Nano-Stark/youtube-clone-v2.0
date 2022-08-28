@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/static/css/main.6a57446e.css",
+    "main.js": "/static/js/main.12a42018.js",
+    "static/media/Youtube-logo.png": "/static/media/Youtube-logo.5f9a97c9558efe617504.png",
+    "index.html": "/index.html",
+    "main.6a57446e.css.map": "/static/css/main.6a57446e.css.map",
+    "main.12a42018.js.map": "/static/js/main.12a42018.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.6a57446e.css",
+    "static/js/main.12a42018.js"
+  ]
+}
